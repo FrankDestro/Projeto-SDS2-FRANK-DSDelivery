@@ -32,6 +32,7 @@ public class OrderService {
 
 	}
   
+	// Inserir um novo pedido pegando os produtos associados ao pedido (Order)
 	@Transactional
 	public OrderDTO insert(OrderDTO dto) {
 		Order order = new Order(null, dto.getAddress(), dto.getLatitude(), dto.getLongitude(), 
@@ -43,4 +44,13 @@ public class OrderService {
 		order = repository.save(order);
 		return new OrderDTO(order);
 	}
-}
+	
+	// Atualizar o status do Pedido(Order) para entregue. 
+	@Transactional
+	public OrderDTO setDelivered(Long id) {
+		Order order = repository.getOne(id);
+		order.setStatus(OrderStatus.DELIVERED);
+		order = repository.save(order);
+		return new OrderDTO(order);
+	}
+} 
